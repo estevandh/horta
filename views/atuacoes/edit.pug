@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  .container
+    if tipo_horas
+      form(method="POST", action="/tipo_horas/"+tipo_horas.id_tipo+"/update")
+        label Descrição
+        input(type="text", name="tipo_horas[desc_tipo]", value=tipo_horas.desc_tipo)
+
+        button.btn.waves-effect.waves-light.right(type='submit')
+          | Atualizar
+          i.material-icons.right send
+
+    else
+      form(method="POST", action="/tipo_horas/create")
+        label Descrição
+        input(type="text", name="tipo_horas[desc_tipo]")
+
+        button.btn.waves-effect.waves-light.right(type='submit')
+          | Cadastrar
+          i.material-icons.right send
+
+    a(href="/tipo_horas") Retornar

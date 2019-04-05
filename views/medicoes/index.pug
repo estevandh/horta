@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+	.container
+		h3 Intervalo das Medições
+		form(name="tempo", method="GET", action="/medicoes/tempo")
+			label Quantidade de Horas
+			input(type="number", name="horas")
+			label Quantidade de Minutos
+			input(type="number", name="minutos")
+
+			button.btn.waves-effect.waves-light.right(type='submit')
+				| Enviar
+				i.material-icons.right send
+	.container
+		h3 Últimas Medições
+		table
+			thead
+				tr
+					th ID
+					th Temperatura
+					th Umidade
+					th Data e Horário
+			tbody
+				each item in medicoes
+					tr
+						td= item.id_medicao
+						td= item.valor_temp
+						td= item.valor_umi
+						td= item.data_horario
+				else
+					tr
+						td.center(colspan='5') Nenhum tipo de medição foi cadastrado ainda
