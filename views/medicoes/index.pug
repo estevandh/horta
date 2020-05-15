@@ -2,32 +2,117 @@ extends ../layout
 
 block content
 	.container
-		h3 Intervalo das Medições
-		form(name="tempo", method="GET", action="/medicoes/tempo")
-			label Quantidade de Horas
-			input(type="number", name="horas")
-			label Quantidade de Minutos
-			input(type="number", name="minutos")
-
-			button.btn.waves-effect.waves-light.right(type='submit')
-				| Enviar
-				i.material-icons.right send
+		.row.pt-4
+			.container.col-md-6
+				h4 Intervalo das Medições
+				form(name="tempo", method="POST", action="/medicoes/tempo", Content-type= "application/x-www-form-urlencoded")
+				
+					label(for='horas') De quantas em quantas horas serão as medicões?
+					input#horas.validate(name='horas', placeholder='Horas', type='number', data-length="2", max='1000', min='1')
+					
+					button.btn.btn-primary(type='submit')
+						| Selecionar
+			
 	.container
-		h3 Últimas Medições
-		table
-			thead
-				tr
-					th ID
-					th Temperatura
-					th Umidade
-					th Data e Horário
-			tbody
-				each item in medicoes
-					tr
-						td= item.id_medicao
-						td= item.valor_temp
-						td= item.valor_umi
-						td= item.data_horario
-				else
-					tr
-						td.center(colspan='5') Nenhum tipo de medição foi cadastrado ainda
+		canvas#Temperatura(width='600px', height='auto')
+		
+		canvas#Umidade(width='600px', height='auto')
+				
+block javascript
+	script(type='text/javascript').
+		var temps = !{JSON.stringify(temperaturas)};
+		var dats = !{JSON.stringify(datas)};
+		var umis = !{JSON.stringify(umidades)};
+	
+		var ctx = document.getElementById('Temperatura').getContext('2d');
+		var chart = new Chart(ctx, {
+			// The type of chart we want to create
+			type: 'line', // also try bar or other graph types
+
+			// The data for our dataset
+			data: {
+				labels: [moment(dats[6].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[5].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[4].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[3].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[2].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[1].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[0].data_horario).format('MMMM Do YYYY, h:mm a')],
+				// Information about the dataset
+			datasets: [{
+					label: "Temperatura",
+					backgroundColor: 'red',
+					borderColor: 'red',
+					data: [temps[6].valor_temp, temps[5].valor_temp, temps[4].valor_temp, temps[3].valor_temp, temps[2].valor_temp, temps[1].valor_temp, temps[0].valor_temp],
+				}]
+			},
+
+			// Configuration options
+			options: {
+			layout: {
+			  padding: 10,
+			},
+				legend: {
+					position: 'bottom',
+				},
+				title: {
+					display: false,
+					text: 'Temperatura do ambiente'
+				},
+				scales: {
+					yAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: '°C'
+						}
+					}],
+					xAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: 'Data e horário da medição'
+						}
+					}]
+				}
+			}
+		});
+		
+		
+		var ctx2 = document.getElementById('Umidade').getContext('2d');
+		var chart = new Chart(ctx2, {
+			// The type of chart we want to create
+			type: 'line', // also try bar or other graph types
+
+			// The data for our dataset
+			data: {
+					labels: [moment(dats[6].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[5].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[4].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[3].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[2].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[1].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[0].data_horario).format('MMMM Do YYYY, h:mm a')],
+				// Information about the dataset
+			datasets: [{
+					label: "Umidade",
+					backgroundColor: 'blue',
+					borderColor: 'blue',
+					data: [umis[6].valor_umi, umis[5].valor_umi, umis[4].valor_umi, umis[3].valor_umi, umis[2].valor_umi, umis[1].valor_umi, umis[0].valor_umi],
+				}]
+			},
+
+			// Configuration options
+			options: {
+			layout: {
+			  padding: 10,
+			},
+				legend: {
+					position: 'bottom',
+				},
+				title: {
+					display: false,
+					text: 'Umidade do ambiente'
+				},
+				scales: {
+					yAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: '%'
+						}
+					}],
+					xAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: 'Data e horário da medição'
+						}
+					}]
+				}
+			}
+		});

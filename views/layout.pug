@@ -3,37 +3,47 @@ html(lang='en')
 	head
 		meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
 		meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1.0')
-		title Horta da Medora
-		// CSS
-		link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-		link(href='/css/materialize.css', type='text/css', rel='stylesheet', media='screen,projection')
-		link(href='/css/style.css', type='text/css', rel='stylesheet', media='screen,projection')
+		title AutoPlant
 		
-	body
-		nav.light-blue.lighten-1(role='navigation')
-			.nav-wrapper.container
-				a#logo-container.brand-logo(href='#') Horta da Medora
-				ul.right.hide-on-med-and-down
-					li
-						a(href='/cadastro') Cadastrar
-					li
-						a(href='/medicoes') Medições do Sistema
-					li
-						a(href='/atuacoes') Atuações do Sistema
-				ul#nav-mobile.sidenav
-					li
-						a(href='/cadastro') Cadastrar
-					li
-						a(href='/medicoes') Medições do Sistema
-					li
-						a(href='/atuacoes') Atuações do Sistema
-				a.sidenav-trigger(href='#', data-target='nav-mobile')
-					i.material-icons menu
-					
-
-		block content
-
 		// Scripts
 		script(src='https://code.jquery.com/jquery-2.1.1.min.js')
 		script(src='/js/materialize.js')
 		script(src='/js/init.js')
+		script(src='/js/moment.js')
+		script(src='/js/Chart.bundle.min.js')
+
+		// CSS
+		link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+		link(href='/css/materialize.css', type='text/css', rel='stylesheet', media='screen,projection')
+		//link(href='/css/style.css', type='text/css', rel='stylesheet', media='screen,projection')
+		link(href="/styles/site.min.css", rel="stylesheet")
+		link(rel='stylesheet', type='text/css', href='/chartjs/dist/Chart.min.css')
+	body
+		nav.navbar.navbar-expand-lg.navbar-dark.bg-primary.mb-4(role='navigation') 
+				a.navbar-brand(href='#') AutoPlant
+				ul.right.hide-on-med-and-down
+					li.nav-item
+						a.nav.link(href='/') Home
+					li.nav-item
+						a(href='/medicoes') Medições do Sistema
+					li.nav-item
+						a(href='/irrigacao') Irrigação
+					li.nav-item
+						a(href='/iluminacao') Ciclos de Luz
+				ul#nav-mobile.sidenav
+					li.nav-item
+						a(href='/') Home
+					li.nav-item
+						a(href='/medicoes') Medições do Sistema
+					li.nav-item
+						a(href='/irrigacao') Irrigação
+					li.nav-item
+						a(href='/iluminacao') Ciclos de Luz
+				a.sidenav-trigger(href='#', data-target='nav-mobile')
+					i.material-icons menu
+		block content
+	footer.fixed-bottom.navbar-expand-lg.navbar-dark.bg-primary.white-text.mt-2.pt-2
+		.container
+				br
+				p © 2019 Tecnologia em Sistemas para Internet - Instituto Federal de Educação, Ciência e Tecnologia Sul-rio-grandense, Câmpus Charqueadas
+	block javascript

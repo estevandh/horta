@@ -12,3 +12,10 @@
 .icon-block .material-icons {
 	font-size: inherit;
 }
+
+.page-footer{
+width: 100%;
+bottom: 0;
+position: fixed;
+background-color:#00B7FF;
+}

@@ -5,12 +5,16 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var http = require('http');
 var bodyparser = require('body-parser');
+var axios =  require('axios');
+var RED = require('node-red');
+var Chart = require('chart.js');
 
 var bodyParserXml = require('body-parser-xml'); //manda solicitar os body parsers
 
 var indexRouter = require('./routes/index');
 var medicoesRouter = require('./routes/medicoes');
-var atuacoesRouter = require('./routes/atuacoes');
+var irrigacaoRouter = require('./routes/irrigacao');
+var iluminacaoRouter = require('./routes/iluminacao');
 
 var app = express();
 
@@ -33,14 +37,15 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', indexRouter);
 app.use('/medicoes', medicoesRouter);
-app.use('/atuacoes', atuacoesRouter);
+app.use('/irrigacao', irrigacaoRouter);
+app.use('/iluminacao', iluminacaoRouter);
 app.use("/",express.static("public"));
 
 // catch 404 and forward to error handler
@@ -54,26 +59,25 @@ app.use(bodyparser.json());
 var server = http.createServer(app);
 
 // Create the settings object - see default settings.js file for other options
-//var settings = {
- //   httpAdminRoot:"/red",
- // httpNodeRoot: "/api",
- //   userDir:"/home/nol/.nodered/",
- //   functionGlobalContext: { }    // enables global context
-//};
-
+var settings = {
+    httpAdminRoot:"/red",
+    httpNodeRoot: "/api",
+    userDir:"/home/nol/.nodered/",
+    functionGlobalContext: { }    // enables global context
+};
 // Initialise the runtime with a server and settings
-//RED.init(server,settings);
+RED.init(server,settings);
 
 // Serve the editor UI from /red
-//app.use(settings.httpAdminRoot,RED.httpAdmin);
+app.use(settings.httpAdminRoot,RED.httpAdmin);
 
 // Serve the http nodes UI from /api
-//app.use(settings.httpNodeRoot,RED.httpNode);
+app.use(settings.httpNodeRoot,RED.httpNode);
 
 server.listen(8000);
 
 // Start the runtime
-//RED.start();
+RED.start();
 
 // error handler
 app.use(function(err, req, res, next) {

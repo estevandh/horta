@@ -1,4 +1,23 @@
 extends layout
 
 block content
-	h1 Bem vindo!
+	.container
+		.container.pt-4
+			h1 Bem vindo!
+			h5 AutoPlant, sistema para ajudar a monitorar seu cultivo de orgânicos.
+			
+			.container.pt-4.li
+				a.nav.link(href='/medicoes') Medições
+				p Neste sistema você pode ajustar a frequencia das medições da estufa, em horas.
+			
+			.container.pt-4.li
+				a.nav.link(href='/irrigacao') Irrigação
+				p Ou ajustar a frequencia das irrigações dentro da estufa, também em horas.
+				
+			.container.pt-4.li
+				a.nav.link(href='/iluminacao') Ciclos de luz / Fotoperíodos
+				p E você também pode ajustar a quantidade de horas de luz em cada fotoperíodo (24 horas) dentro da estufa. Evite sobrecarregar sua planta com ciclos pesados, como por exemplo com menos de 4 horas de luz, ou mais de 20 horas de luz.
+
+		
+block javascript
+	script(type='text/javascript').

@@ -1,0 +1,88 @@
+extends ../layout
+
+block content
+	.container
+		.row.pt-4
+			.container.col.mt-6
+				h4 Intervalo das Irrigações
+				form(name="irrigacao", method="POST", action="/irrigacao/irrigacao", Content-type= "application/x-www-form-urlencoded")
+					label(for='horas') De quantas em quantas horas serão as irrigações?
+					input#horas.validate(name='horas', placeholder='Horas', type='number', max='24', min='1')
+
+					button.btn.btn-primary(type='submit')
+						| Selecionar
+						
+			.container.col-md-6
+				h4 Modo Manual
+				form(name="irriga", method="POST", action="/irrigacao/irriga", Content-type= "application/x-www-form-urlencoded")
+					label Ativar ou desativar a irrigação em tempo real
+						select(name="status")
+							option(value='', disabled='', selected='') Escolha a ação
+							option(value='false') Ativar irrigação
+							option(value='true') Desativar irrigação
+		  
+					button.btn.btn-primary(type='submit')
+						| Selecionar			
+	br
+	.container
+		canvas#myChart(width='700px', height='auto')
+	
+block javascript
+	script(type='text/javascript').
+		var dats = !{JSON.stringify(datas)};
+				
+		var ctx = document.getElementById('myChart').getContext('2d');
+		var chart = new Chart(ctx, {
+			// The type of chart we want to create
+			type: 'line', // also try bar or other graph types
+
+			// The data for our dataset
+			data: {
+				labels: [moment(dats[6].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[5].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[4].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[3].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[2].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[1].data_horario).format('MMMM Do YYYY, h:mm a'), moment(dats[0].data_horario).format('MMMM Do YYYY, h:mm a')],
+				// Information about the dataset
+			datasets: [{
+					label: "Irrigação",
+					backgroundColor: 'red',
+					borderColor: 'red',
+					data: [0, 0, 0, 0, 0, 0, 0],
+				}]
+			},
+
+			// Configuration options
+			options: {
+			layout: {
+			  padding: 10,
+			},
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: false,
+					text: 'Ativação da irrigação ambiente'
+				},
+				scales: {
+					yAxes: [{
+						display: false,
+						gridLines: {
+							drawBorder: false,
+							display: false
+						},
+						scaleLabel: {
+							display: false,
+							labelString: ''
+						}
+						
+					}],
+					xAxes: [{
+						gridLines: {
+							display: false,
+							drawBorder: false
+						},
+						scaleLabel: {
+							display: true,
+							labelString: 'Data e horário em que a irrigação foi realizada'
+						}
+					}]
+				}
+			}
+		});
