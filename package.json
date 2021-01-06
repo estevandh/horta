@@ -6,7 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bluebird": "^3.5.5",
     "body-parser": "^1.18.3",
     "body-parser-xml": "^1.1.0",
